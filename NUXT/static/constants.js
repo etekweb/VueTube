@@ -14,6 +14,8 @@ const ytApiVal = {
 }
 
 module.exports = {
+    DEBUG: true,
+    
     URLS: url,
     YT_API_VALUES: ytApiVal,
 

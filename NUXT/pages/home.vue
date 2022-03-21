@@ -37,31 +37,51 @@ export default {
 
   // The following code is only a demo for debugging purposes, note that each "shelfRenderer" has a "title" value that seems to align to the categories at the top of the vanilla yt app
 
+  computed: {
+    apiReady() {
+      return this.$store.state.apiReady;
+    }
+  },
+
   mounted() {
-    const vm = this;
-    this.$youtube.recommend().then(
-      result => {
-        const videoList = []
-        console.log(result)
-        const recommendContent = result.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents // I feel like I've committed programming sin
-        recommendContent.forEach(function (contents, index) {
-          contents.shelfRenderer.content.horizontalListRenderer.items.forEach(function (item, index) {
-            const video = item.gridVideoRenderer
-            console.log(video)
-            console.log(video.onTap)
-            videoList.push(video)
-          })
-        })
-        vm.recommends = videoList;
-      }
-    ).catch ((error) => {
-      this.$logger("Home Page", error, true)
-    })
+    if (this.apiReady) this.getRecommended();
+    else {
+      // It may be better to move the getAPI() call to default.vue to avoid redirecting back and forth, but this works for now
+      this.$router.push('/');
+    }
+  },
+
+  watch: {
+    apiReady() {
+      if (this.apiReady) this.getRecommended();
+    }
   },
 
   methods: {
     getThumbnail(id, resolution) {
       return this.$youtube.getThumbnail(id, resolution)
+    },
+    getRecommended() {
+      const vm = this;
+      this.$youtube.recommend().then(
+        result => {
+          const videoList = []
+          console.log(result)
+          const recommendContent = result.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents // I feel like I've committed programming sin
+          recommendContent.forEach(function (contents, index) {
+            this.$logger("Home Page > Recommended", contents.shelfRenderer, false);
+            contents.shelfRenderer.content.horizontalListRenderer.items.forEach(function (item, index) {
+              const video = item.gridVideoRenderer
+              console.log(video)
+              console.log(video.onTap)
+              videoList.push(video)
+            })
+          })
+          vm.recommends = videoList;
+        }
+      ).catch ((error) => {
+        this.$logger("Home Page", error, true)
+      })
     }
   }
 }

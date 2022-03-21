@@ -12,7 +12,8 @@
 export default {
     layout: "empty",
     async mounted() {
-        await this.$youtube.getAPI()
+        await this.$youtube.getAPI();
+        this.$store.commit('apiLoadComplete');
         this.$router.push(`/${localStorage.getItem("startPage") || "home"}`)
     }
 }

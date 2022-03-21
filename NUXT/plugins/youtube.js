@@ -11,6 +11,10 @@ function logger(func, data, isError = false) {
         data: data,
         error: isError
     })
+    if (constants.DEBUG) {
+        if (isError) console.error(data);
+        else console.log(data);
+    }
 }
 
 //---   Youtube Base Parser   ---//

@@ -8,7 +8,8 @@
     >
       <template #activator="{ on, attrs }">
         <v-btn fab text small color="white" v-bind="attrs" v-on="on">
-          {{ sources.find((src) => src.url == currentSource.src).qualityLabel }}
+          <!-- {{ currentQualityLabel }} -->
+          Quality
         </v-btn>
       </template>
       <v-card class="background">
@@ -25,7 +26,7 @@
         </v-subheader>
         <v-divider />
         <v-card-text
-          style="max-height: 50vh"
+          style="max-height: 50vh; padding: unset !important"
           class="pa-0 d-flex flex-column-reverse"
         >
           <v-list-item
@@ -50,7 +51,8 @@
               ></v-icon>
             </v-list-item-avatar>
             <v-list-item-title>
-              {{ src.qualityLabel }} ({{ src.quality }})
+              {{ src.qualityLabel ? src.qualityLabel : src.audioQuality }}
+              ({{ src.quality }} - {{ src.mimeType }})
             </v-list-item-title>
           </v-list-item>
         </v-card-text>
@@ -75,5 +77,13 @@ export default {
   data: () => ({
     sheet: false,
   }),
+  computed: {
+    currentQualityLabel() {
+      const src = this.sources.find((src) => src.url == this.currentSource.src);
+      if (src.qualityLabel) return src.qualityLabel;
+      if (src.audioQuality) return "Audio";
+      return src.quality;
+    },
+  },
 };
 </script>

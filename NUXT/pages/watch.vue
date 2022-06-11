@@ -326,7 +326,7 @@ export default {
 
       this.$youtube.getVid(this.$route.query.v).then((result) => {
         // TODO: add other resolutions as well
-        this.sources = result.availableResolutions;
+        this.sources = result.availableResolutionsAdaptive;
         console.log("Video info data", result);
         this.video = result;
 

@@ -236,6 +236,9 @@ export default {
 .v-input__slot {
   margin: 0 !important;
 }
+.v-input__slot .v-label {
+  margin-left: 10px !important;
+}
 .v-slider {
   margin: 0 !important;
 }

@@ -13,6 +13,22 @@
       </v-card-text>
     </v-card>
 
+    <!--   SponsorBlock/RYD Options   -->
+    <v-card flat class="pb-5 background" :class="$vuetify.theme.dark ? 'lighten-1' : 'darken-1'"
+      :style="{ borderRadius: `${roundTweak / 2}rem` }">
+      <v-card-title>{{ lang.features }}</v-card-title>
+      <div class="toggles">
+        <div class="toggle-wrap">
+          {{ langEvents.enableryd }}:
+          <v-switch v-model="ryd" class="toggle" color="primary" />
+        </div>
+        <div class="toggle-wrap">
+          {{ langEvents.enablespb }}:
+          <v-switch v-model="sponsorBlock" class="toggle" color="primary" />
+        </div>
+      </div>
+    </v-card>
+
     <!--   Backup   -->
     <v-card
       flat
@@ -43,16 +59,34 @@ export default {
   data() {
     return {
       lang: {},
+      langEvents: {},
     };
   },
   computed: {
     roundTweak() {
       return this.$store.state.tweaks.roundTweak;
     },
+    ryd: {
+      get() {
+        return this.$store.state.settings.ryd;
+      },
+      set(newVal) {
+        this.$store.commit("settings/setRYD", newVal);
+      },
+    },
+    sponsorBlock: {
+      get() {
+        return this.$store.state.settings.sponsorBlock;
+      },
+      set(newVal) {
+        this.$store.commit("settings/setSponsorBlock", newVal);
+      },
+    },
   },
   mounted() {
     const lang = this.$lang();
     this.lang = lang.mods.general;
+    this.langEvents = lang.events;
   },
   methods: {
     download(filename, text) {
@@ -103,5 +137,19 @@ export default {
 
 section {
   padding: 0 1em 1em 1em;
+}
+
+.toggles {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+.toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.toggle {
+  margin-top: 10px;
 }
 </style>

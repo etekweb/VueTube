@@ -53,9 +53,10 @@ module.exports = {
   mods: {
     general: {
       language: "Language",
+      features: "Features",
       backup: "Backup",
       backupinfo: "Backup or restore your application settings",
-      restore: "Restore"
+      restore: "Restore",
     },
     theme: {
       normal: "Normal",

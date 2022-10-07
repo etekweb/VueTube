@@ -467,7 +467,11 @@ export default {
           // console.log("sb check", this.blocks);
           // iterate over data.segments array
           // for sponsorblock
-          if (this.blocks.length > 0)
+          console.log(this.$store.state.settings.useSponsorBlock);
+          if (
+            this.$store.state.settings.useSponsorBlock &&
+            this.blocks.length > 0
+          ) {
             this.blocks.forEach((sponsor) => {
               let vidTime = vid.currentTime;
 
@@ -481,6 +485,7 @@ export default {
                 this.$refs.audio.currentTime = this.$refs.player.currentTime;
               }
             });
+          }
         });
         // TODO: handle video ending with a "replay" button instead of <playpause /> if not on loop
         // TODO: split buffering into multiple sections as it should be for back/forth scrubbing

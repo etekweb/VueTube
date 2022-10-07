@@ -271,6 +271,7 @@
       </div>
       <item-section-renderer
         v-else
+        v-show="!showComments"
         :render="recommends"
         :style="{
           marginTop: $store.state.tweaks.roundTweak > 0 ? '1rem' : '0',
